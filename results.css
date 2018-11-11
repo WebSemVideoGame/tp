@@ -1,0 +1,45 @@
+
+#results_div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.result:first-child {
+    display: none;
+}
+
+.result {
+    width: calc(50% - 20px);
+    height: 100px;
+    margin-bottom: 20px;
+    
+    overflow: hidden;
+}
+
+.image {
+    height: 100px;
+    width: 100px;
+    float: left;
+    
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    
+    margin-right: 20px;
+}
+.image.big {
+    height: 300px;
+    width: 300px;
+}
+.image img {
+    height: 100%;
+}
+
+.result > .game_info {
+    height: 100%;
+}
+.game_info > * {
+    margin: 0;
+}

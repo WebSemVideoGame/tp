@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>Jeux vidéo</title>
+        <meta charset="UTF-8" />
+        <script type="text/javascript" src="results.js" ></script>
+        <link rel="stylesheet" type="text/css" href="shared.css">
+        <link rel="stylesheet" type="text/css" href="searchbar.css">
+        <link rel="stylesheet" type="text/css" href="results.css">
+        <style>
+            #search_div {
+                height: 10%;
+            }
+        </style>
+    </head>
+    <body class="centeredrow">
+        <main class="centeredcol">
+            <div id="search_div" class="centeredcol">
+                <form class="centeredrow" action="search.html" method="get">
+                    <input id="search_text" type="search" name="search" placeholder="Search" aria-label="Search">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            
+            <div id="results_div">
+                <div class="result box">
+                    <div class="image">
+                        <img src="" alt="" />
+                    </div>
+                    <div class="game_info centeredcol">
+                        <h2>Title</h2>
+                        <h3>Year</h3>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script type="text/javascript">
+            for (var i=0; i<4; i++) addresult("Mario Kart DS", "2005", "https://www.mobygames.com/images/covers/l/497185-mario-kart-ds-wii-u-front-cover.jpg");
+            for (var i=0; i<4; i++) addresult("New Super Mario Bros.", "2006", "https://cdn02.nintendo-europe.com/media/images/10_share_images/games_15/nintendo_ds_22/SI_NDS_NewSuperMarioBrosDS_image1600w.jpg");
+            for (var i=0; i<4; i++) addresult("Mario Kart 7", "2011", "http://pixel-museum.fr/wp-content/uploads/2017/04/MarioKartstory-958x641.png");
+            for (var i=0; i<4; i++) addresult("","","");
+        </script>
+    </body>
+</html>
