@@ -20,18 +20,34 @@ function dbpediaQuery(query, callback){
 }
 
 
-// Does not work because of wikipedia.org CORS policy :(
-/*function imageUrl(pageName, callback){
-	var pageNameEncoded = encodeURIComponent(pageName);
-	//"https://en.wikipedia.org/w/api.php?action=query&titles=Dofus&prop=pageimages&format=json&pithumbsize=150"
-	httpGetAsync("https://en.wikipedia.org/w/api.php?action=query&titles="+pageNameEncoded+"&prop=pageimages&format=json&pithumbsize=150",
-	function (data){
-			var obj = JSON.parse(data);
-			obj.query.
-			
-			Object.keys(obj.query).forEach(function(key) {
-				callback(obj.query[key].thumbnail.source);
-			});
-	}
-	);
-}*/
+
+
+function imageWp(word) {
+
+    
+    $.ajaxPrefilter(function (options) {
+        if (options.crossDomain && jQuery.support.cors) {
+            var https = (window.location.protocol === 'http:' ? 'http:' : 'https:');
+            options.url = https + '//cors-anywhere.herokuapp.com/' + options.url;
+            console.log(options.url);
+        }
+    });
+
+    $.get(
+        'https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&section=0&page=' + word + '&callback=?',
+
+    function (response) {
+		
+        var m;
+        var urls = [];
+        var regexp = /src=\\"(.*?)\\"/mi;
+//see more about .*? : https://stackoverflow.com/questions/3075130/what-is-the-difference-between-and-regular-expressions
+
+        m = regexp.exec(response);
+        var str = m[1].match(/\/\/(\S*)/)[1];
+        urls.push("http:"+str);
+        urls.forEach(function (url) {
+            $(".result box").append('<img src="' + url + '">');
+        });
+    });
+}
