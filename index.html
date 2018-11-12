@@ -1,10 +1,14 @@
 ﻿<!DOCTYPE html>
 <html>
+    
     <head>
         <title>Jeux vidéo</title>
         <meta charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="shared.css">
         <link rel="stylesheet" type="text/css" href="searchbar.css">
+        <script src="js/query.js"></script>
+        <script src="js/index.js"></script>
+        
         <style>
             body {
                 height: 100vh;
@@ -59,7 +63,14 @@
             </div>
             
             <div id="highlights_div" class="centeredrow">
-                <div class="square"><div id="box1" class="highlights_box box"></div></div>
+                <div class="square"><div id="box1" class="highlights_box box">
+                    
+                        <img id="imageLastGamePublished">
+                    
+                        <h3 id="titleLastGamePublished"></h3>
+                        <h5 id="genreLastGamePublished"></h4>
+                        <h5 id="devLastGamePublished"></h4>
+                </div></div>
                 <div class="square"><div id="box2" class="highlights_box box"></div></div>
                 <div class="square"><div id="box3" class="highlights_box box"></div></div>
             </div>
