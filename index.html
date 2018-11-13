@@ -6,6 +6,7 @@
         <meta charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="shared.css">
         <link rel="stylesheet" type="text/css" href="searchbar.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="js/query.js"></script>
         <script src="js/index.js"></script>
         
@@ -47,6 +48,13 @@
                 width: 90%;
                 padding-bottom: 90%;
             }
+            .image{
+                margin: 10px;
+
+            }
+            .text_info{
+                font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
         </style>
     </head>
     <body class="centeredrow">
@@ -64,12 +72,11 @@
             
             <div id="highlights_div" class="centeredrow">
                 <div class="square"><div id="box1" class="highlights_box box">
+                        <img id="imageLastGamePublished" class="image">
                     
-                        <img id="imageLastGamePublished">
-                    
-                        <h3 id="titleLastGamePublished"></h3>
-                        <h5 id="genreLastGamePublished"></h4>
-                        <h5 id="devLastGamePublished"></h4>
+                        <h3 id="titleLastGamePublished" class="text_info"></h3>
+                        <h5 id="genreLastGamePublished" class="text_info"></h4>
+                        <h5 id="devLastGamePublished" class="text_info"></h4>
                 </div></div>
                 <div class="square"><div id="box2" class="highlights_box box"></div></div>
                 <div class="square"><div id="box3" class="highlights_box box"></div></div>

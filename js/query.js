@@ -20,34 +20,25 @@ function dbpediaQuery(query, callback){
 }
 
 
-
-
-function imageWp(word) {
-
-    
+function imageWp(word, callback) {
     $.ajaxPrefilter(function (options) {
         if (options.crossDomain && jQuery.support.cors) {
             var https = (window.location.protocol === 'http:' ? 'http:' : 'https:');
             options.url = https + '//cors-anywhere.herokuapp.com/' + options.url;
-            console.log(options.url);
         }
     });
-
+    
     $.get(
-        'https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&section=0&page=' + word + '&callback=?',
-
+        'https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&section=0&page=' + encodeURIComponent(word) + '&callback=?',
+    
     function (response) {
-		
-        var m;
-        var urls = [];
+    try {
+		var url;
         var regexp = /src=\\"(.*?)\\"/mi;
-//see more about .*? : https://stackoverflow.com/questions/3075130/what-is-the-difference-between-and-regular-expressions
-
-        m = regexp.exec(response);
+        var m = regexp.exec(response);
         var str = m[1].match(/\/\/(\S*)/)[1];
-        urls.push("http:"+str);
-        urls.forEach(function (url) {
-            $(".result box").append('<img src="' + url + '">');
-        });
+        url = "http:"+str;
+        callback(url);
+    } catch {}
     });
 }
