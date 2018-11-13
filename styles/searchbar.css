@@ -1,0 +1,35 @@
+﻿
+#search_div {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+#search_text {
+    flex-grow: 1;
+}
+
+form > * {
+    padding: 8px;
+    margin: 4px;
+    font-size: larger;
+/* .box { */
+    box-shadow: 2px 2px 2px grey;
+    border: 1px solid dimgrey;
+    border-radius: 5px;
+/* } */
+}
+
+form > input {
+    min-width: 20px;
+}
+
+form > button {
+    background-color: forestgreen;
+    color: white;
+}
+form > button:active {
+    background-color: green;
+    transform: scale(0.9);
+}
+form > button:hover {
+    background-color: green;
+}

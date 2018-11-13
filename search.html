@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>Jeux vidéo</title>
+        <meta charset="UTF-8"/>
+        <script type="text/javascript" src="scripts/shared.js"></script>
+        <script type="text/javascript" src="scripts/query.js"></script>
+        <script type="text/javascript" src="scripts/search.js"></script>
+        <script type="text/javascript" src="scripts/results.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="styles/shared.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/searchbar.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/results.css"/>
+        <style>
+            #search_div {
+                height: 10%;
+            }
+        </style>
+    </head>
+    <body class="centeredrow">
+        <main class="centeredcol">
+            <div id="search_div" class="centeredcol">
+                <form class="centeredrow" action="search.html" method="get">
+                    <input id="search_text" type="search" name="search" placeholder="Search" aria-label="Search">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            
+            <div id="results_div">
+                <div class="result box">
+                    <div class="image">
+                        <img src="" alt=""/>
+                    </div>
+                    <div class="game_info centeredcol">
+                        <a><h2>Title</h2></a>
+                        <h3>Year</h3>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script type="text/javascript">
+            ready(init);
+        </script>
+    </body>
+</html>
