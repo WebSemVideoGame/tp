@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>Jeux vidéo</title>
+        <meta charset="UTF-8" />
+        <script type="text/javascript" src="../js/results.js" ></script>
+        <link rel="stylesheet" type="text/css" href="../style/shared.css">
+        <link rel="stylesheet" type="text/css" href="../style/searchbar.css">
+        <link rel="stylesheet" type="text/css" href="../style/results.css">
+        <style>
+            #details_div {
+                padding: 10px;
+                overflow: hidden;
+                margin-bottom: 20px;
+            }
+        </style>
+    </head>
+    <body class="centeredrow">
+        <main class="centeredcol">
+            <div id="search_div" class="centeredcol">
+                <form class="centeredrow" action="search.html" method="get">
+                    <input id="search_text" type="search" name="search" placeholder="Search" aria-label="Search">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            
+            <div id="details_div" class="box">
+                <div class="image big">
+                    <img src="https://www.mobygames.com/images/covers/l/497185-mario-kart-ds-wii-u-front-cover.jpg" alt="" />
+                </div>
+                <div class="game_info">
+                    <h2>Mario Kart DS</h2>
+                    <h3>Type : jeu de course</h3>
+                    <h3>Développeur : Nintendo</h3>
+                    <h3>Plateforme : Nintendo DS</h3>
+                    <h3>Année : 2005</h3>
+                </div>
+                <!-- Source : Wikipédia -->
+                <p>Mario Kart DS (マリオカートDS, Mario Kāto Dī Esu?) est un jeu vidéo de course développé par Nintendo EAD et édité par Nintendo. Le jeu est sorti sur la Nintendo DS en novembre 2005 en Amérique du Nord, en Australie et en Europe et le 8 décembre 2005 au Japon. C'est le cinquième opus de la série Mario Kart et le premier à être jouable via le service de jeu en ligne Nintendo Wi-Fi Connection. Comme d'autres jeux de la série, Mario Kart DS met en scène les principaux personnages de l'univers Super Mario et les oppose les uns contre les autres dans des courses de kart sur des circuits situés dans les différents lieux du Royaume Champignon.</p>
+                <p>En savoir plus : <a href="http://mario.wikia.com/wiki/Mario_Kart_DS">page fandom</a>.</p>
+            </div>
+            
+            <h2>Jeux en rapport :</h2>
+            <div id="results_div">
+                <div class="result box">
+                    <div class="image">
+                        <img src="" alt="" />
+                    </div>
+                    <div class="game_info centeredcol">
+                        <h2>Title</h2>
+                        <h3>Year</h3>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script type="text/javascript">
+            addresult("New Super Mario Bros.", "2006", "https://cdn02.nintendo-europe.com/media/images/10_share_images/games_15/nintendo_ds_22/SI_NDS_NewSuperMarioBrosDS_image1600w.jpg");
+            addresult("Mario Kart 7", "2011", "http://pixel-museum.fr/wp-content/uploads/2017/04/MarioKartstory-958x641.png");
+        </script>
+    </body>
+</html>

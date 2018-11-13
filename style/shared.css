@@ -1,0 +1,35 @@
+
+body {
+    margin: 0;
+}
+
+main {
+    width: 80vw;
+    
+    padding-bottom: 40px;
+}
+
+.centeredcol {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+.centeredrow {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+}
+
+.box {
+    background-color: white;
+    box-shadow: 2px 2px 2px grey;
+    border: 1px solid dimgrey;
+    border-radius: 5px;
+}
+.box:hover {
+     background-color: ghostwhite;
+}
+
+
