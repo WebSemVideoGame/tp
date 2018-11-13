@@ -67,5 +67,9 @@ function showInfo(results) {
         document.getElementsByClassName("big")[0].innerHTML = "<img src=\""+url+"\"/>";
     });
     
-    document.getElementById("fandom").href = "";
+    var newLink = "http://gameName.wikia.com/wiki/gameNameWiki";
+				newLink = newLink.replace("gameName",name);
+				newLink = newLink.replace("gameName",name+"_");
+
+				$("#linkToFandom").attr("href",newLink);
 }
