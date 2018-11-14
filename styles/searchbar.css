@@ -27,9 +27,9 @@ form > button {
     color: white;
 }
 form > button:active {
-    background-color: green;
+    background-color: #008000;
     transform: scale(0.9);
 }
 form > button:hover {
-    background-color: green;
+    background-color: #008000;
 }
