@@ -58,8 +58,30 @@
                 
 
             }
+            .imageGameDev{
+                height: 60px;
+                width: 60px;
+                float: left;
+    
+                display: flex;
+                justify-content: center;
+                overflow: hidden;
+    
+                margin: 10px;
+            }
+
+            .childBox{
+                padding-bottom:0 !important;
+                margin-bottom: 80px;
+            }
             .text_info{
                 font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+            }
+            .text_TitleCategory{
+                font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+                color: darkcyan;
             }
         </style>
     </head>
@@ -78,6 +100,7 @@
             
             <div id="highlights_div" class="centeredrow">
                 <div class="square"><div id="box1" class="highlights_box box">
+                        <h2 class="text_TitleCategory">Brand new Game</h2>
                         <img id="imageLastGamePublished" class="image">
                     
                         <h3 id="titleLastGamePublished" class="text_info"></h3>
@@ -92,21 +115,22 @@
                         <h5 id="devRandomGame" class="text_info"></h5>
                 </div></div>
                 <div class="square"><div id="box3" class="highlights_box box">
-                        <h3 id="devName" class="text_info"></h3>
-                        <div>
-                                <img id="imageGame1" src="http://upload.wikimedia.org/wikipedia/en/thumb/2/23/Psychonauts_2_cover.png/220px-Psychonauts_2_cover.png">
+                        <h3 id="devName" class="text_info">Blizzard Entertainment</h3>
+                        <div class="childBox highlights_box">
+                                <img id="imageGame1" class="imageGameDev" src="https://t2.ea.ltmcdn.com/fr/images/9/0/0/les_bienfaits_d_avoir_un_chien_1009_600.jpg">
                                 <h5 id="game1" class="text_info">game1</h5>
                         </div>
-                        <div>
-                                <img id="imageGame2" src="https://t2.ea.ltmcdn.com/fr/images/9/0/0/les_bienfaits_d_avoir_un_chien_1009_600.jpg">
+                        <div class="highlights_box childBox">
+                                <img id="imageGame2" class="imageGameDev" src="https://t2.ea.ltmcdn.com/fr/images/9/0/0/les_bienfaits_d_avoir_un_chien_1009_600.jpg">
                                 <h5 id="game2" class="text_info">game2</h5>
                         </div>
-                        <div>
-                                <img id="imageGame3" src="https://t2.ea.ltmcdn.com/fr/images/9/0/0/les_bienfaits_d_avoir_un_chien_1009_600.jpg">
+                        <div class="highlights_box childBox">
+                                <img id="imageGame3" class="imageGameDev" src="https://t2.ea.ltmcdn.com/fr/images/9/0/0/les_bienfaits_d_avoir_un_chien_1009_600.jpg">
                                 <h5 id="game3" class="text_info">game3</h5>
                         </div>     
-                </div></div>
+                </div></div>      
             </div>
+ 
         </main>
         <script type="text/javascript">
             ready(init);
