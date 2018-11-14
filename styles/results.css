@@ -1,9 +1,18 @@
-﻿
-#results_div {
+.similar {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: wrap;
+}
+
+#results_div {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+
 }
 
 .result:first-child {
@@ -21,15 +30,16 @@
     color: black;
 }
 
-#results_div {
+.similar {
 	width : 100%;
 	height:110px;
 	overflow : hidden;
 }
-#results_div .result.box {
+.similar .result.box {
 
 	width : 30%;
 }
+
 
 .image {
     height: 100px;
