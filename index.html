@@ -1,14 +1,15 @@
 ﻿<!DOCTYPE html>
 <html>
+    
     <head>
         <title>Jeux vidéo</title>
-        <meta charset="UTF-8"/>
-        <script src="scripts/shared.js"></script>
-        <script src="scripts/query.js"></script>
-        <script src="scripts/index.js"></script>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="../styles/shared.css">
+        <link rel="stylesheet" type="text/css" href="../styles/searchbar.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="styles/shared.css"/>
-        <link rel="stylesheet" type="text/css" href="styles/searchbar.css"/>
+        <script src="../scripts/query.js"></script>
+        <script src="../scripts/index.js"></script>
+        
         <style>
             body {
                 height: 100vh;
@@ -47,6 +48,13 @@
                 width: 90%;
                 padding-bottom: 90%;
             }
+            .image{
+                margin: 10px;
+
+            }
+            .text_info{
+                font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
         </style>
     </head>
     <body class="centeredrow">
@@ -64,18 +72,15 @@
             
             <div id="highlights_div" class="centeredrow">
                 <div class="square"><div id="box1" class="highlights_box box">
-                    <img id="imageLastGamePublished"/>
+                        <img id="imageLastGamePublished" class="image">
                     
-                    <h3 id="titleLastGamePublished"></h3>
-                    <h5 id="genreLastGamePublished"></h5>
-                    <h5 id="devLastGamePublished"></h5>
+                        <h3 id="titleLastGamePublished" class="text_info"></h3>
+                        <h5 id="genreLastGamePublished" class="text_info"></h5>
+                        <h5 id="devLastGamePublished" class="text_info"></h5>
                 </div></div>
                 <div class="square"><div id="box2" class="highlights_box box"></div></div>
                 <div class="square"><div id="box3" class="highlights_box box"></div></div>
             </div>
         </main>
-        <script type="text/javascript">
-            ready(init);
-        </script>
     </body>
 </html>
