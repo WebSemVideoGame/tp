@@ -8,6 +8,7 @@ function init() {
 }
 
 function showResults(search) {
+	document.getElementById("loading").style.display = "block";
 	results = {};
 	requestRet = [];
 	var keywords = search.split(" ");
@@ -39,6 +40,7 @@ function showResults(search) {
 			}
 			requestRet.push(idx);
 			if(requestRet.length==keywords.length){
+				document.getElementById("loading").style.display = "none";
 				var resultsOrdered = [];
 				for (var i=0; i<keywords.length; i++) {
 					resultsOrdered[i] = [];
