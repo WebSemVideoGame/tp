@@ -1,5 +1,5 @@
 ﻿var results = {};
-var requestRet = [];
+var requestRet;
 
 function init() {
     keyword = getUrlParameter("search");
@@ -10,10 +10,10 @@ function init() {
 function showResults(search) {
 	document.getElementById("loading").style.display = "block";
 	results = {};
-	requestRet = [];
+	requestRet = 0;
 	var keywords = search.split(" ");
 	for (var i=0; i<keywords.length; i++) {
-		requestkeyword(i,keywords[i], function(json,idx){
+		requestkeyword(i,keywords[i], function(json){
 			var table = json.results.bindings;
 			for (var j=0; j<table.length; j++) {
 				var result = table[j];
@@ -38,8 +38,8 @@ function showResults(search) {
 				
 				
 			}
-			requestRet.push(idx);
-			if(requestRet.length==keywords.length){
+			requestRet++;
+			if(requestRet==keywords.length){
 				document.getElementById("loading").style.display = "none";
 				var resultsOrdered = [];
 				for (var i=0; i<keywords.length; i++) {
@@ -76,5 +76,5 @@ function showResults(search) {
 function requestkeyword(idx,keyword,callback) {
 	// var query = 'select distinct * where {?game a dbo:VideoGame; rdfs:label ?name. OPTIONAL{ ?game dbo:releaseDate ?date. } filter(regex(?name, ".*' + keyword + '.*") && lang(?name)="en")}';
 	var query = 'select distinct ?game (sample(?name) as ?name) (max(?date) as ?date) where {?game a dbo:VideoGame; rdfs:label ?name. OPTIONAL{ ?game dbo:releaseDate ?date. } filter(regex(lcase(?name), lcase(".*' + keyword + '.*")) && lang(?name)="en")} group by ?game';
-	dbpediaQueryAsync(query, function (json) {callback(json,idx)});
+	dbpediaQueryAsync(query, function (json) {callback(json)});
 }
