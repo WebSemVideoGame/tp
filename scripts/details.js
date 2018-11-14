@@ -152,5 +152,36 @@ function showInfo(results) {
 				}
 
 			});
+	} 
+	else
+	{
+	 var x = document.getElementById("relatingGame");
+			genres[0] = genres[0].replace(/ /g, "_");
+			x.hidden = false;
+			var names = [];
+			console.log("genre :"+genres[0]);
+			dbpediaQueryAsync("select * where {  ?t dbo:genre <http://dbpedia.org/resource/" + genres[0] + ">  FILTER (?t != <http://dbpedia.org/resource/"+resname+">)} limit 100 ", function(result){
+				console.log(result);
+				var resultats = result["results"]["bindings"];
+				for(var i = 0; i<resultats.length;i++){
+					//console.log(resultats[i]["t"].value);
+					names.push(resultats[i]["t"].value.split('/')[4].replace(/_/g, " "));	
+					
+					}
+					names = shuffle(names);
+				let compt = 0;
+				for (compt; compt<3; compt++)
+				{
+					let ele = addresult(names[compt].replace(/ /g, "_"),names[compt],"","");
+					imageWp(names[compt], function(url) {
+						
+						ele.getElementsByTagName("img")[0].src = url;
+					});
+				
+				
+				}
+
+			});
 	}
+	
 }
