@@ -45,6 +45,7 @@ function imageWp(word, callback) {
     $.ajaxPrefilter(function (options) {
         if (options.crossDomain && jQuery.support.cors) {
             var https = (window.location.protocol === 'http:' ? 'http:' : 'https:');
+            if ((options.url + '').includes("cors-anywhere")) return;
             options.url = https + '//cors-anywhere.herokuapp.com/' + options.url;
         }
     });
@@ -68,4 +69,15 @@ function imageWp(word, callback) {
             callback(url);
         }
     );
+}
+
+function getResourceName(resource, name) {
+    var resname;
+    var debuturl = "dbpedia.org/resource/";
+    if (resource.includes(debuturl)) {
+        resname = resource.substring(resource.lastIndexOf(debuturl) + debuturl.length);
+    } else {
+        resname = name;
+    }
+    return resname;
 }

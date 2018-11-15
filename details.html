@@ -3,10 +3,10 @@
     <head>
         <title>Jeux vidéo</title>
         <meta charset="UTF-8"/>
-        <script type="text/javascript" src="scripts/shared.js" ></script>
-        <script type="text/javascript" src="scripts/query.js" ></script>
-        <script type="text/javascript" src="scripts/details.js" ></script>
-        <script type="text/javascript" src="scripts/results.js" ></script>
+        <script type="text/javascript" src="scripts/shared.js"></script>
+        <script type="text/javascript" src="scripts/query.js"></script>
+        <script type="text/javascript" src="scripts/details.js"></script>
+        <script type="text/javascript" src="scripts/results.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="styles/shared.css"/>
         <link rel="stylesheet" type="text/css" href="styles/searchbar.css"/>
@@ -16,6 +16,10 @@
                 padding: 10px;
                 overflow: hidden;
                 margin-bottom: 20px;
+            }
+            
+            .result {
+                width: 30%;
             }
         </style>
     </head>
@@ -35,14 +39,14 @@
                 <div class="game_info">
                 </div>
                 <p id="summary"></p>
-                <p id="linkToFandom"> </p>
+                <p id="linkToFandom"></p>
             </div>
             
-            <h2 id = "relatingGame" hidden >Similar Games :</h2>
-            <div id="results_div" class = "similar">
+            <h2 id="relatingGame" hidden>Similar games :</h2>
+            <div id="results_div">
                 <div class="result box">
                     <div class="image">
-                        <img src="" alt="" />
+                        <img src="" alt=""/>
                     </div>
                     <div class="game_info centeredcol">
                         <a><h2>Title</h2></a>

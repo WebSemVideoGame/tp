@@ -1,11 +1,7 @@
 
-
-
 function init() {
-    
     var resname = getUrlParameter("resource");
-    var nameSearch = resname.replace(/_/g, "+");
-    var fandomLink = "https://www.google.com/search?q="+nameSearch+"fandom";
+    
     dbpediaQueryAsync("select * where { <http://dbpedia.org/resource/" + resname + "> ?t ?v }", showInfo);
     $.ajaxPrefilter(function (options) {
         if (options.crossDomain && jQuery.support.cors) {
@@ -14,36 +10,40 @@ function init() {
         }
     });
     
+    var nameSearch = resname.replace(/_/g, "+");
+    var fandomLink = "https://www.google.com/search?q="+nameSearch+"fandom";
+    
     $.get(
         fandomLink,
         function (response) {
-		
-		var pos = response.indexOf("<div class=\"r\"><a href");
-		response  = response.substr(pos, response.length);
-		response = response.substr(24, response.length); // on cherche et recupere l'url
-		response = response.split('"')[0]; 
-		console.log("resulat : "+response);
-		document.getElementById("linkToFandom").innerHTML= "See more : <a href="+response+" >Fandom page </a>";
-	})
+            var pos = response.indexOf("<div class=\"r\"><a href");
+            response  = response.substr(pos, response.length);
+            response = response.substr(24, response.length); // on cherche et recupere l'url
+            response = response.split('"')[0]; 
+            console.log("resulat : "+response);
+            document.getElementById("linkToFandom").innerHTML= "See more : <a href="+response+" >Fandom page </a>";
+        }
+    );
 }
 
-function shuffle(array) { //source  : https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-  var currentIndex = array.length, temporaryValue, randomIndex;
-
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
-
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
+// https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+    
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+        
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+    
+    return array;
 }
 
 function showInfo(results) {
@@ -85,11 +85,10 @@ function showInfo(results) {
             case "http://dbpedia.org/ontology/abstract":
                 if (resultats[i]["v"]["xml:lang"] === "en") summary = value;
                 break;
-
- 	case "http://dbpedia.org/ontology/series":
-				series=value.split('/')[4];
-				break;
-       		 
+            
+            case "http://dbpedia.org/ontology/series":
+                series = value.split('/')[4];
+                break;
         }
     }
     
@@ -103,10 +102,10 @@ function showInfo(results) {
     // console.log("infos - name : "+name + ", release : "+releaseDate+" , publisher : "+publisher+" , computingPlatform : "+computingPlatform + ", genre : "+genre+"");
     document.getElementsByClassName("game_info")[0].innerHTML =
         "<h2>" + name + "</h2>" +
-        "<h3>Genre : " + genre + "</h3>" +
-        "<h3>Publisher : " + publisher + "</h3>" + 
-        "<h3>Computing Platform: " + computingPlatform + "</h3>" +
-        "<h3>Release Year : " + releaseDate + "</h3>";
+        "<h3>Genre: " + genre + "</h3>" +
+        "<h3>Publisher: " + publisher + "</h3>" + 
+        "<h3>Computing platform: " + computingPlatform + "</h3>" +
+        "<h3>Release year: " + releaseDate + "</h3>";
     
     document.getElementById("summary").innerHTML = summary;
     
@@ -115,73 +114,59 @@ function showInfo(results) {
     });
     
     var newLink = "http://gameName.wikia.com/wiki/gameNameWiki";
-				newLink = newLink.replace("gameName",name);
-				newLink = newLink.replace("gameName",name+"_");
-
-				$("#linkToFandom").attr("href",newLink);
-
-	if(series){
-		 var x = document.getElementById("relatingGame");
-			console.log(series);
-			series = series.toString();
-			x.hidden = false;
-			var names = [];
-			dbpediaQueryAsync("select * where {  ?t dbo:series <http://dbpedia.org/resource/" + series + ">  FILTER (?t != <http://dbpedia.org/resource/"+resname+">)} limit 10 ", function(result){
-				console.log(result);
-				var resultats = result["results"]["bindings"];
-	
-				for(var i = 0; i<resultats.length;i++){
-					//console.log(resultats[i]["t"].value);
-					names.push(resultats[i]["t"].value.split('/')[4].replace(/_/g, " "));	
-					
-					}
-					names = shuffle(names);
-				let compt = 0;
-				for (compt; compt<3; compt++)
-				{
-				//names.forEach(function(element){
-					let ele = addresult(names[compt].replace(/ /g, "_"),names[compt],"","");
-					imageWp(names[compt], function(url) {
-						
-						ele.getElementsByTagName("img")[0].src = url;
-					});
-				
-					
-				
-				//});
-				}
-
-			});
-	} 
-	else
-	{
-	 var x = document.getElementById("relatingGame");
-			genres[0] = genres[0].replace(/ /g, "_");
-			x.hidden = false;
-			var names = [];
-			console.log("genre :"+genres[0]);
-			dbpediaQueryAsync("select * where {  ?t dbo:genre <http://dbpedia.org/resource/" + genres[0] + ">  FILTER (?t != <http://dbpedia.org/resource/"+resname+">)} limit 100 ", function(result){
-				console.log(result);
-				var resultats = result["results"]["bindings"];
-				for(var i = 0; i<resultats.length;i++){
-					//console.log(resultats[i]["t"].value);
-					names.push(resultats[i]["t"].value.split('/')[4].replace(/_/g, " "));	
-					
-					}
-					names = shuffle(names);
-				let compt = 0;
-				for (compt; compt<3; compt++)
-				{
-					let ele = addresult(names[compt].replace(/ /g, "_"),names[compt],"","");
-					imageWp(names[compt], function(url) {
-						
-						ele.getElementsByTagName("img")[0].src = url;
-					});
-				
-				
-				}
-
-			});
-	}
-	
+    newLink = newLink.replace("gameName",name);
+    newLink = newLink.replace("gameName",name+"_");
+    $("#linkToFandom").attr("href",newLink);
+    
+    if (series) {
+        var x = document.getElementById("relatingGame");
+        x.hidden = false;
+        // console.log(series);
+        series = series.toString();
+        var names = [];
+        dbpediaQueryAsync("select * where {  ?t dbo:series <http://dbpedia.org/resource/" + series + ">  FILTER (?t != <http://dbpedia.org/resource/"+resname+">)} limit 10 ", function (result) {
+            // console.log(result);
+            var resultats = result["results"]["bindings"];
+            
+            for (var i=0; i<resultats.length; i++) {
+                // console.log(resultats[i]["t"].value);
+                names.push(resultats[i]["t"].value.split('/')[4].replace(/_/g, " "));
+            }
+            
+            names = shuffle(names);
+            // names.forEach(function(element) {
+            for (var compt=0; compt<3; compt++) {
+                let ele = addresult(names[compt].replace(/ /g, "_"),names[compt],"","");
+                imageWp(names[compt], function(url) {
+                    ele.getElementsByTagName("img")[0].src = url;
+                });
+            }
+            // });
+        });
+    }
+    else
+    {
+        var x = document.getElementById("relatingGame");
+        x.hidden = false;
+        genres[0] = genres[0].replace(/ /g, "_");
+        // console.log("genre :"+genres[0]);
+        var names = [];
+        dbpediaQueryAsync("select * where {  ?t dbo:genre <http://dbpedia.org/resource/" + genres[0] + ">  FILTER (?t != <http://dbpedia.org/resource/"+resname+">)} limit 100 ", function(result) {
+            // console.log(result);
+            var resultats = result["results"]["bindings"];
+            
+            for(var i=0; i<resultats.length; i++) {
+                // console.log(resultats[i]["t"].value);
+                names.push(resultats[i]["t"].value.split('/')[4].replace(/_/g, " "));
+            }
+            
+            names = shuffle(names);
+            for (var compt=0; compt<3; compt++) {
+                let ele = addresult(names[compt].replace(/ /g, "_"),names[compt],"","");
+                imageWp(names[compt], function(url) {
+                    ele.getElementsByTagName("img")[0].src = url;
+                });
+            }
+        });
+    }
 }
