@@ -3,14 +3,14 @@
     <head>
         <title>Jeux vidéo</title>
         <meta charset="UTF-8"/>
+        <link rel="stylesheet" type="text/css" href="styles/shared.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/searchbar.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/results.css"/>
         <script type="text/javascript" src="scripts/shared.js"></script>
         <script type="text/javascript" src="scripts/query.js"></script>
         <script type="text/javascript" src="scripts/search.js"></script>
         <script type="text/javascript" src="scripts/results.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="styles/shared.css"/>
-        <link rel="stylesheet" type="text/css" href="styles/searchbar.css"/>
-        <link rel="stylesheet" type="text/css" href="styles/results.css"/>
         <style>
             #search_div {
                 margin-bottom: 0;
@@ -18,8 +18,11 @@
             #platforms {
                 margin-bottom: 20px;
             }
+            #platforms div {
+                display: inline-block;
+            }
             #loading_div {
-                margin-top: 20%px;
+                margin-top: 10%;
                 text-align: center;
                 display: none;
                 width: 100%;

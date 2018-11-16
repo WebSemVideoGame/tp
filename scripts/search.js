@@ -5,17 +5,6 @@ function init() {
     if (keyword != "") showResults(keyword);
 }
 
-function getResourceName(resource, name) {
-    var resname;
-    var debuturl = "dbpedia.org/resource/";
-    if (resource.includes(debuturl)) {
-        resname = resource.substring(resource.lastIndexOf(debuturl) + debuturl.length);
-    } else {
-        resname = name;
-    }
-    return resname;
-}
-
 var results = {};
 var resultsP = {};
 function showResults(search) {
@@ -73,7 +62,7 @@ function showResults(search) {
         }
         
         for (key in results) {
-            result = results[key];
+            var result = results[key];
             resultsOrdered[result.count].push(result);
         }
         
@@ -87,13 +76,17 @@ function showResults(search) {
         for (var i=keywords.length-1; i>=0; i--) {
             if (i == 0 && total > 0) break;
             for (var j=0; j<resultsOrdered[i].length; j++) {
-                var game = resultsOrdered[i][j];
+                var game = resultsOrdered[i][j]; game.count++;
                 let element = addresult(game.resource, game.name, game.year, "");
                 imageWp(game.name, function(url) {
                     element.getElementsByTagName("img")[0].src = url;
                 });
                 total++;
             }
+        }
+        
+        for (var i=0; i<keywords.length; i++) {
+            requestplatforms(keywords[i], requestPAdd);
         }
     }
     
@@ -107,15 +100,32 @@ function showResults(search) {
             return (a.name).localeCompare(b.name);} /* (b.count - a.count) || */
         );
         
+        // var resultdivs = document.getElementById("results_div").children;
+        
         for (var j=0; j<resultsOrdered.length; j++) {
             var platform = resultsOrdered[j];
-            addresultP(platform.resource, platform.name, platform.resname);
+            
+            var used = false;
+            var lookfor = platform.resname;
+            for (key in results) {
+            // for (var i=1; i<resultdivs.length; i++) {
+                var game = results[key];
+                // var game = resultdivs[i].dataset.resource;
+                // game = results[game];
+                if (game.count > 0) {
+                    if (game.platforms.includes(lookfor)) {
+                        used = true;
+                        break;
+                    }
+                }
+            }
+            if (used) addresultP(platform.resource, platform.name, platform.resname);
+            else delete resultsP[platform.resource];
         }
     }
     
     for (var i=0; i<keywords.length; i++) {
         requestkeyword(keywords[i], requestAdd);
-        requestplatforms(keywords[i], requestPAdd);
     }
 }
 
@@ -128,15 +138,15 @@ function filterresults() {
         if (checkbox.checked) platformsChecked.push(platform.resname);
     }
     
-    var results_div = document.getElementById("results_div");
+    var resultdivs = document.getElementById("results_div").children;
     if (platformsChecked.length == 0) {
-        for (var i=1; i<results_div.children.length; i++) {
-            var result = results_div.children[i];
+        for (var i=1; i<resultdivs.length; i++) {
+            var result = resultdivs[i];
             result.style.display = 'block';
         }
     } else {
-        for (var i=1; i<results_div.children.length; i++) {
-            var result = results_div.children[i];
+        for (var i=1; i<resultdivs.length; i++) {
+            var result = resultdivs[i];
             var game = result.dataset.resource;
             
             var common = intersect(platformsChecked, results[game].platforms).length;
@@ -147,11 +157,14 @@ function filterresults() {
 
 // https://stackoverflow.com/questions/16227197/compute-intersection-of-two-arrays-in-javascript
 function intersect(a,b) {
-    return a.filter(function (e) {return b.indexOf(e) > -1;});
+    return a.filter(function (e) {return b.includes(e);});
 }
 
 function addresultP(resource, name, resname) {
     var consoles = document.getElementById("platforms");
+    
+    var container = document.createElement("div");
+    consoles.appendChild(container);
     
     var checkbox = document.createElement("input");
     checkbox.type = "checkbox";
@@ -159,12 +172,12 @@ function addresultP(resource, name, resname) {
     checkbox.id = "c_" + resname;
     checkbox.value = name;
     checkbox.onchange = filterresults;
-    consoles.appendChild(checkbox);
+    container.appendChild(checkbox);
     
     var label = document.createElement("label");
     label.htmlFor = "c_" + resname;
     label.innerText = name;
-    consoles.appendChild(label);
+    container.appendChild(label);
     
     return checkbox;
 }

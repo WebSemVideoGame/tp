@@ -72,12 +72,10 @@ function imageWp(word, callback) {
 }
 
 function getResourceName(resource, name) {
-    var resname;
     var debuturl = "dbpedia.org/resource/";
     if (resource.includes(debuturl)) {
-        resname = resource.substring(resource.lastIndexOf(debuturl) + debuturl.length);
+        return resource.substring(resource.lastIndexOf(debuturl) + debuturl.length);
     } else {
-        resname = name;
+        return name;
     }
-    return resname;
 }

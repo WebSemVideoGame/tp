@@ -2,63 +2,39 @@
 function init() {
     var resname = getUrlParameter("resource");
     
+    showImage(resname);
+    
     dbpediaQueryAsync("select * where { <http://dbpedia.org/resource/" + resname + "> ?t ?v }", showInfo);
-    $.ajaxPrefilter(function (options) {
-        if (options.crossDomain && jQuery.support.cors) {
-            var https = (window.location.protocol === 'http:' ? 'http:' : 'https:');
-            options.url = https + '//cors-anywhere.herokuapp.com/' + options.url;
-        }
-    });
     
-    var nameSearch = resname.replace(/_/g, "+");
-    var fandomLink = "https://www.google.com/search?q="+nameSearch+"fandom";
-    
-    $.get(
-        fandomLink,
-        function (response) {
-            var pos = response.indexOf("<div class=\"r\"><a href");
-            response  = response.substr(pos, response.length);
-            response = response.substr(24, response.length); // on cherche et recupere l'url
-            response = response.split('"')[0]; 
-            console.log("resulat : "+response);
-            document.getElementById("linkToFandom").innerHTML= "See more : <a href="+response+" >Fandom page </a>";
-        }
-    );
+    showLink(resname);
 }
 
-// https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-    
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-        
-        // Pick a remaining element...
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        
-        // And swap it with the current element.
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-    
-    return array;
+function getNameFromResource(resource) {
+    return resource.split('/')[4].replace(/_/g, " ");
+}
+function getNameFromResname(resname) {
+    return resname.replace(/_/g, " ");
+}
+
+function showImage(resname) {
+    imageWp(resname, function(url) {
+        document.getElementsByClassName("big")[0].innerHTML = "<img src=\""+url+"\"/>";
+    });
 }
 
 function showInfo(results) {
     var resname = getUrlParameter("resource");
+    var name = getNameFromResname(resname);
     
-    // console.log("resultats :");
-    // console.log(results["results"]["bindings"]);
-    
-    var name = resname.replace(/_/g, " ");
     var releaseDate;
     var genres = [];
     var publishers = [];
     var computingPlatforms = [];
     var summary;
     var series;
+    
+    // console.log("resultats :");
+    // console.log(results["results"]["bindings"]);
     
     var resultats = results["results"]["bindings"];
     for (var i=0; i<resultats.length; i++) {
@@ -71,15 +47,15 @@ function showInfo(results) {
                 break;
             
             case "http://dbpedia.org/ontology/genre":
-                genres.push( value.split('/')[4].replace(/_/g, " ") );
+                genres.push(getNameFromResource(value));
                 break;
             
             case "http://dbpedia.org/ontology/publisher":
-                publishers.push( value.split('/')[4].replace(/_/g, " ") );
+                publishers.push(getNameFromResource(value));
                 break;
             
             case "http://dbpedia.org/ontology/computingPlatform":
-                computingPlatforms.push( value.split('/')[4].replace(/_/g, " ") );
+                computingPlatforms.push(getNameFromResource(value));
                 break;
             
             case "http://dbpedia.org/ontology/abstract":
@@ -109,64 +85,86 @@ function showInfo(results) {
     
     document.getElementById("summary").innerHTML = summary;
     
-    imageWp(resname, function(url) {
-        document.getElementsByClassName("big")[0].innerHTML = "<img src=\""+url+"\"/>";
+    if (series) {
+        // console.log(series);
+        var series = series.toString();
+        dbpediaQueryAsync(
+            "select * where { ?t dbo:series <http://dbpedia.org/resource/" + series + ">; a dbo:VideoGame. FILTER (?t != <http://dbpedia.org/resource/"+resname+">)} limit 10",
+            showRelated
+        );
+    }
+    else if (genres.length > 0)
+    {
+        var genre = genres[0].replace(/ /g, "_");
+        // console.log("genre :" + genres[0]);
+        dbpediaQueryAsync(
+            "select * where { ?t dbo:genre <http://dbpedia.org/resource/" + genre + ">; a dbo:VideoGame. FILTER (?t != <http://dbpedia.org/resource/"+resname+">)} limit 100",
+            showRelated
+        );
+    }
+}
+
+function showLink(resname) {
+    $.ajaxPrefilter(function (options) {
+        if (options.crossDomain && jQuery.support.cors) {
+            var https = (window.location.protocol === 'http:' ? 'http:' : 'https:');
+            options.url = https + '//cors-anywhere.herokuapp.com/' + options.url;
+        }
     });
     
-    var newLink = "http://gameName.wikia.com/wiki/gameNameWiki";
-    newLink = newLink.replace("gameName",name);
-    newLink = newLink.replace("gameName",name+"_");
-    $("#linkToFandom").attr("href",newLink);
+    var searchName = resname.replace(/_/g, "+");
+    var searchURL = "https://www.google.com/search?q=" + searchName + "\"fandom\"";
     
-    if (series) {
-        var x = document.getElementById("relatingGame");
-        x.hidden = false;
-        // console.log(series);
-        series = series.toString();
-        var names = [];
-        dbpediaQueryAsync("select * where {  ?t dbo:series <http://dbpedia.org/resource/" + series + ">  FILTER (?t != <http://dbpedia.org/resource/"+resname+">)} limit 10 ", function (result) {
-            // console.log(result);
-            var resultats = result["results"]["bindings"];
-            
-            for (var i=0; i<resultats.length; i++) {
-                // console.log(resultats[i]["t"].value);
-                names.push(resultats[i]["t"].value.split('/')[4].replace(/_/g, " "));
-            }
-            
-            names = shuffle(names);
-            // names.forEach(function(element) {
-            for (var compt=0; compt<3; compt++) {
-                let ele = addresult(names[compt].replace(/ /g, "_"),names[compt],"","");
-                imageWp(names[compt], function(url) {
-                    ele.getElementsByTagName("img")[0].src = url;
-                });
-            }
-            // });
+    $.get(
+        searchURL,
+        function (response) {
+            var pos = response.indexOf("<div class=\"r\"><a href");
+            response = response.substr(pos).substr(24); // on cherche et recupere l'url
+            response = response.substr(0, response.indexOf('"'));
+            // console.log("resulat : " + response);
+            document.getElementById("linkToFandom").innerHTML= "See more : <a href="+response+">fandom page</a>.";
+        }
+    );
+}
+
+function showRelated(result) {
+    // console.log(result);
+    var resultats = result["results"]["bindings"];
+    
+    var names = [];
+    for(var i=0; i<resultats.length; i++) {
+        // console.log(resultats[i]["t"].value);
+        names.push(resultats[i]["t"].value);
+    }
+    
+    names = shuffle(names);
+    for (var compt=0; compt<3; compt++) {
+        var name = getNameFromResource(names[compt]);
+        let ele = addresult(names[compt],name,"","");
+        imageWp(name, function(url) {
+            ele.getElementsByTagName("img")[0].src = url;
         });
     }
-    else
-    {
-        var x = document.getElementById("relatingGame");
-        x.hidden = false;
-        genres[0] = genres[0].replace(/ /g, "_");
-        // console.log("genre :"+genres[0]);
-        var names = [];
-        dbpediaQueryAsync("select * where {  ?t dbo:genre <http://dbpedia.org/resource/" + genres[0] + ">  FILTER (?t != <http://dbpedia.org/resource/"+resname+">)} limit 100 ", function(result) {
-            // console.log(result);
-            var resultats = result["results"]["bindings"];
-            
-            for(var i=0; i<resultats.length; i++) {
-                // console.log(resultats[i]["t"].value);
-                names.push(resultats[i]["t"].value.split('/')[4].replace(/_/g, " "));
-            }
-            
-            names = shuffle(names);
-            for (var compt=0; compt<3; compt++) {
-                let ele = addresult(names[compt].replace(/ /g, "_"),names[compt],"","");
-                imageWp(names[compt], function(url) {
-                    ele.getElementsByTagName("img")[0].src = url;
-                });
-            }
-        });
+    
+    document.getElementById("relatingGame").hidden = false;
+}
+
+// https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+    
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+        
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
     }
+    
+    return array;
 }
