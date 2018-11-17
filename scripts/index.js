@@ -10,7 +10,7 @@ function init() {
         function(data) { showGameInfos("box2", data); }
     );
 
-    var data = dbpediaQuerySync('select distinct ?r  where { ?r dbo:industry ?x. filter(regex(?x, ".*[Vv]ideo.[Gg]ame.*")).  ?r dbo:product ?n. ?n a dbo:VideoGame.} GROUP BY ?r HAVING (count(?n)>=3)');
+    var data = dbpediaQuerySync('select distinct ?r  where { ?r dbo:industry ?x. filter(regex(?x, ".*[Vv]ideo.[Gg]ame.*")).  ?r dbo:product ?game. ?game a dbo:VideoGame. ?game foaf:name ?name. filter(lang(?name) = "en")} GROUP BY ?r HAVING (count(?game)>=3)');
     randomDev(data);
 }
 
