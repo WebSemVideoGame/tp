@@ -54,15 +54,27 @@ function randomDevGamesInfo(data) {
         document.getElementById("imageGame1").src = url;
     });
     document.getElementById("game1").innerText = resultats[0].name.value;
+    document.getElementById("divGame1").onclick = function(){
+        var resource1 = getResourceName(resultats[0].r.value,resultats[0].name.value);
+        window.location.href = "details.html?resource=" + encodeURIComponent(resource1);
+    };
 
     imageWp(resultats[1].name.value, function(url) {
         document.getElementById("imageGame2").src = url;
     });
     document.getElementById("game2").innerText = resultats[1].name.value;
+    document.getElementById("divGame2").onclick = function(){
+        var resource2 = getResourceName(resultats[1].r.value,resultats[1].name.value);
+        window.location.href = "details.html?resource=" + encodeURIComponent(resource2);
+    };
 
     imageWp(resultats[2].name.value, function(url) {
         document.getElementById("imageGame3").src = url;
     });
     document.getElementById("game3").innerText = resultats[2].name.value;
+    document.getElementById("divGame3").onclick = function(){
+        var resource3 = getResourceName(resultats[2].r.value,resultats[2].name.value);
+        window.location.href = "details.html?resource=" + encodeURIComponent(resource3);
+    };
 
 }
