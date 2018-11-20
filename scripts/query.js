@@ -65,7 +65,9 @@ function imageWp(word, callback) {
                 var m = regexp.exec(response);
                 var str = m[1].match(/\/\/(\S*)/)[1];
                 var url = "http:" + str;
-            } catch {}
+            } catch {
+		url ="https://mbtskoudsalg.com/images/game-controller-png-2.png";
+	    }
             callback(url);
         }
     );

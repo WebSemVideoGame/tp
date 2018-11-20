@@ -31,3 +31,12 @@ main {
 .box:hover {
      background-color: ghostwhite;
 }
+
+#logoDiv img
+{   
+    height: 300px;
+    width: 300px;
+    margin-top: 20%;
+    margin-left: 40%;
+
+}

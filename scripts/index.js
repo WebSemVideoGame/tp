@@ -50,6 +50,7 @@ function randomDev(data) {
 //Gets data of 3 games produced by the random video game developer in dbpedia and prints it in focus 3
 function randomDevGamesInfo(data) {
     var resultats = data.results.bindings;
+    console.log(resultats);
     imageWp(resultats[0].name.value, function(url) {
         document.getElementById("imageGame1").src = url;
     });
